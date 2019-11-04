@@ -1,12 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+import Teste from '~/Teste';
+
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Engine: Hermes</Text>
-    </View>
-  );
+  return <Teste />;
 }
 
 const styles = StyleSheet.create({
