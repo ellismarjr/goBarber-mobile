@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Alert, ToastAndroid } from 'react-native';
 import api from '~/services/api';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -20,6 +21,29 @@ export default function Dashboard() {
     loadAppointments();
   }, []);
 
+  function handleAlert(id) {
+    Alert.alert(
+      'Cancelamento!',
+      'Deseja cancelar este agendamento?',
+      [
+        {
+          text: 'Sair',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Confirmar',
+          onPress: () => {
+            handleCancel(id);
+          },
+        },
+      ],
+      {
+        cancelable: false,
+      }
+    );
+  }
+
   async function handleCancel(id) {
     const response = await api.delete(`appointments/${id}`);
 
@@ -35,6 +59,11 @@ export default function Dashboard() {
     );
 
     loadAppointments();
+    ToastAndroid.showWithGravity(
+      'Agendamento cancelado com sucesso!',
+      ToastAndroid.SHORT,
+      ToastAndroid.BOTTOM
+    );
   }
 
   return (
@@ -46,7 +75,7 @@ export default function Dashboard() {
           data={appointments}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
-            <Appointment onCancel={() => handleCancel(item.id)} data={item} />
+            <Appointment onCancel={() => handleAlert(item.id)} data={item} />
           )}
         />
       </Container>
