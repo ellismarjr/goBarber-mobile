@@ -21,7 +21,7 @@ export default function Confirm({ navigation }) {
   );
 
   async function handleAddAppointment() {
-    await api.post('appointments', {
+    const response = await api.post('appointments', {
       provider_id: provider.id,
       date: time,
     });
